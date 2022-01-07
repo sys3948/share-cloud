@@ -7,3 +7,4 @@ class Account(models.Model):
     password = models.CharField(max_length=64)
     email = models.EmailField()
     registe_datetime = models.DateTimeField(auto_now=True)
+    confirm = models.BooleanField(null=True)
