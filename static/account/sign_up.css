@@ -1,0 +1,13 @@
+.msg-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .msg-content {
+  text-align: center;
+} */
+
+::placeholder {
+    font-size: .8rem;
+}
