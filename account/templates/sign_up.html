@@ -14,7 +14,7 @@
         <input type="text" class="form-control" name="user-id" placeholder="아이디를 입력해주세요." />
       </div>
       <div class="col-md-6 msg-box">
-        <p class="msg-content">아이디 유무 & 중복 체크</p>
+        <p class="msg-content"></p>
       </div>
     </div>
     <div class="row mb-3">
@@ -23,7 +23,7 @@
         <input type="password" class="form-control" name="user-pw-check" placeholder="다시 비밀번호를 입력해주세요." />
       </div>
       <div class="col-md-6 msg-box">
-        <p class="msg-content">비밀번호 유무 & 중복 체크</p>
+        <p class="msg-content"></p>
       </div>
     </div>
     <div class="row mb-3">
@@ -31,7 +31,7 @@
         <input type="text" class="form-control" name="user-name" placeholder="사용할 닉네임을 입력해주세요." />
       </div>
       <div class="col-md-6 msg-box">
-        <p class="msg-content">닉네임 유무 & 중복 체크</p>
+        <p class="msg-content"></p>
       </div>
     </div>
     <div class="row mb-3">
@@ -39,7 +39,7 @@
         <input type="email" class="form-control" name="user-email" placeholder="이메일을 입력해주세요." />
       </div>
       <div class="col-md-6 msg-box">
-        <p class="msg-content">이메일 유무 & 중복 체크</p>
+        <p class="msg-content"></p>
       </div>
     </div>
     <div class="">
@@ -47,6 +47,59 @@
     </div>
   </form>
   <script>
+    document.getElementsByTagName('form')[0].addEventListener('submit', (e) => {
+      e.preventDefault();
 
+      // msg-content elements 초기화
+      document.getElementsByClassName('msg-content')[0].innerText = "";
+      document.getElementsByClassName('msg-content')[0].style.display = "none"
+      document.getElementsByClassName('msg-content')[1].innerText = "";
+      document.getElementsByClassName('msg-content')[1].style.display = "none"
+      document.getElementsByClassName('msg-content')[2].innerText = "";
+      document.getElementsByClassName('msg-content')[2].style.display = "none"
+      document.getElementsByClassName('msg-content')[3].innerText = "";
+      document.getElementsByClassName('msg-content')[3].style.display = "none"
+
+      // 각 input elements의 content 비어있는지 확인하는 조건문.
+      if(document.getElementsByName('user-id')[0].value.replace(/(\s*)/g, "") == ""){
+        document.getElementsByClassName('msg-content')[0].innerText = "아이디를 입력해주세요.";
+        document.getElementsByClassName('msg-content')[0].style.display = "block";
+        return false;
+      }; 
+      if(document.getElementsByName('user-pw')[0].value.replace(/(\s*)/g, "") == "" || document.getElementsByName('user-pw-check')[0].value.replace(/(\s*)/g, "") == ""){
+        document.getElementsByClassName('msg-content')[1].innerText = "두 개의 비밀번호를 입력해주세요.";
+        document.getElementsByClassName('msg-content')[1].style.display = "block";
+        return false;
+      };
+      if(document.getElementsByName('user-pw')[0].value.replace(/(\s*)/g, "") !== document.getElementsByName('user-pw-check')[0].value.replace(/(\s*)/g, "")){
+        document.getElementsByClassName('msg-content')[1].innerText = "두 개의 비밀번호가 맞지 않습니다. 다시 입력해주세요.";
+        document.getElementsByClassName('msg-content')[1].style.display = "block";
+        return false;
+      };
+      if(document.getElementsByName('user-name')[0].value.replace(/(\s*)/g, "") == ""){
+        document.getElementsByClassName('msg-content')[2].innerText = "닉네임을 입력해주세요.";
+        document.getElementsByClassName('msg-content')[2].style.display = "block";
+        return false;
+      };
+      if(document.getElementsByName('user-email')[0].value.replace(/(\s*)/g, "") == ""){
+        document.getElementsByClassName('msg-content')[3].innerText = "Email을 입력해주세요.";
+        document.getElementsByClassName('msg-content')[3].style.display = "block";
+        return false;
+      };
+      
+      fetch(request, {
+        method : "POST",
+        body : {"user-id" : document.getElementsByName('user-id')[0].value, 
+                "user-pw" : document.getElementsByName('user-pw')[0].value,
+                "user-name" : document.getElementsByName('user-name')[0].value,
+                "user-email" : document.getElementsByName('user-email')[0].value},
+      }).then(response => {
+        console.log(response);
+        return response.json();
+      }).then(response => {
+        console.log(response);
+      })
+      
+    }, false);
   </script>
 {% endblock %}

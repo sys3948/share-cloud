@@ -4,9 +4,10 @@
   align-items: center;
 }
 
-/* .msg-content {
-  text-align: center;
-} */
+.msg-content {
+  display: none;
+  color: red;
+}
 
 ::placeholder {
     font-size: .8rem;
