@@ -5,6 +5,10 @@ from django.core.mail import send_mail
 from django.conf import settings
 from config.settings import SECRET_KEY
 from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_str
+from .token import account_activation_token
 
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -32,31 +36,16 @@ def sign_up(request):
         account = Account(user_id = request_data.get('user-id'), username = request_data.get('user-name'), password = generate_password_hash(request_data.get('user-pw')), email = request_data.get('user-email'))
         account.save()
 
-        print(account.id)
-
-        s = Serializer(settings.SECRET_KEY, 3600)
-        token = s.dumps({"confirm" : account.id})
-
-        send_mail(subject='Test Send Email', message=render_to_string('email/account_confirm_msg.txt', {'user' : account.username, 'token' : token}), from_email=None, recipient_list=[request_data.get('user-email')], html_message=render_to_string('email/account_confirm_msg.html', {'user' : account.username, 'token' : token}))
+        send_mail(subject='Thanks Sign Up My Web App!', message=render_to_string('email/account_confirm_msg.txt', {'user' : account.username, 'domain' : get_current_site(request).domain, 'uid' : urlsafe_base64_encode(force_bytes(account.id)).encode().decode(), 'token' : account_activation_token.make_token(account)}), from_email=None, recipient_list=[request_data.get('user-email')], html_message=render_to_string('email/account_confirm_msg.html', {'user' : account.username, 'domain' : get_current_site(request).domain, 'uid' : urlsafe_base64_encode(force_bytes(account.id)).encode().decode(), 'token' : account_activation_token.make_token(account)}))
         return JsonResponse({"confirm" : True})
     return render(request, 'sign_up.html')
 
 
-def confirm(request, token):
-    s = Serializer(settings.SECRET_KEY)
+def confirm(request, uid, token):
+    user_id = force_str(urlsafe_base64_decode(uid))
+    account = Account.objects.get(id=user_id)
 
-    print("token is : " + token)
-
-
-    try:
-        print('-'* 100)
-        print('Serializer loads!')
-        data = s.loads(token)
-        print('finlly loads end!')
-    except Exception as e:
-        print(e)
-        return redirect('/account/login')
-
-    account = Account.objects.filter(id=data.get('confirm'))
-    account.confirm = 1
-    account.save()
+    if account is not None and account_activation_token.check_token(account, token):
+        account.confirm =1
+        account.save()
+        return redirect('account:login')
