@@ -4,7 +4,7 @@ from django.db import models
 class Account(models.Model):
     user_id = models.CharField(max_length=32)
     username = models.CharField(max_length=32)
-    password = models.CharField(max_length=64)
+    password = models.CharField(max_length=225)
     email = models.EmailField()
     registe_datetime = models.DateTimeField(auto_now=True)
-    confirm = models.BooleanField(null=True)
+    confirm = models.BooleanField(null=True, default=False)

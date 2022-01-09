@@ -1,0 +1,6 @@
+환영합니다!
+
+{{user}} 님 저희 App에 가입한 것에 감사합니다. 
+인증 절차를 하기 위해 메일을 보냈습니다.
+인증 하는 방법은 옆 인증 링크를 클릭해주시면 됩니다. "http//localhost:8000/{% url 'account:confirm' token=token %}"
+감사합니다.

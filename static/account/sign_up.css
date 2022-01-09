@@ -12,3 +12,7 @@
 ::placeholder {
     font-size: .8rem;
 }
+
+#msg {
+  display: none;
+}
