@@ -16,6 +16,23 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 # Create your views here.
 def login(request):
+    if request.method == "POST":
+        account = Account.objects.get(user_id = request.POST.get('user-id'))
+
+        if not account:
+            # 존재하지 않는 ID
+            print("존재하지 않는 ID")
+            return redirect('account:login')
+        
+        if not check_password_hash(account.password, request.POST.get('user-pw')):
+            # 비밀번호가 틀림.
+            print("비밀번호가 틀림.")
+            return redirect('account:login')
+
+        request.session['id'] = account.id
+        request.session['username'] = account.username
+
+        return redirect('cloud:main')
     return render(request, 'login.html')
 
 

@@ -12,6 +12,7 @@
     <div class="col-md-7">
       <div class="container">
         <form class="mb-3" action="" method="post">
+          {% csrf_token %}
           <div class="mb-3">
             <label>아이디를 입력해주세요.</label>
             <input type="text" class="form-control" placeholder="아이디를 입력해주세요." name="user-id" />
