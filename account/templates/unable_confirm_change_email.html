@@ -1,0 +1,14 @@
+{% extends  'account_base.html'%}
+
+
+{% block title %}Unable Confirm Change Email{% endblock %}
+
+
+{% block contents %}
+  <h4>Email 변경</h4>
+  <form method="post">
+    {% csrf_token %}
+    <input type="email" name="email" class="form-control" placeholder="변경할 이메일을 입력해주세요." />
+    <input type="submit" value="Change Email" class="btn btn-primary" />
+  </form>
+{% endblock %}

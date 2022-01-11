@@ -135,6 +135,7 @@
 
         if(response.confirm){
           // main page로 redirect.
+          location.replace('/');
         } else{
           document.getElementById('msg').style.display = 'block';
           document.getElementById('msg').innerText = response.msg
