@@ -10,6 +10,13 @@
     {% block stylesheet %}{% endblock %}
   </head>
   <body class="container">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="alert-message  {% if message.tags %}{{ message.tags }}{% endif %}"" >{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
     <header class="header">
       <h1>Share Cloud</h1>
     </header>

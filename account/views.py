@@ -2,17 +2,15 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Account
 from django.core.mail import send_mail
-from django.conf import settings
-from config.settings import SECRET_KEY
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
+from django.contrib import messages
 from .token import account_activation_token
 
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 # Create your views here.
 def login(request):
@@ -21,12 +19,12 @@ def login(request):
 
         if not account:
             # 존재하지 않는 ID
-            print("존재하지 않는 ID")
+            messages.error(request, '존재하지 않는 ID 입니다.', extra_tags='alert alert-danger')
             return redirect('account:login')
         
         if not check_password_hash(account.password, request.POST.get('user-pw')):
             # 비밀번호가 틀림.
-            print("비밀번호가 틀림.")
+            messages.error(request, '비밀번호가 틀렸습니다.', extra_tags='alert alert-danger')
             return redirect('account:login')
 
         request.session['id'] = account.id
@@ -66,3 +64,7 @@ def confirm(request, uid, token):
         account.confirm =1
         account.save()
         return redirect('account:login')
+
+
+def unable_confirm(request):
+    return render()

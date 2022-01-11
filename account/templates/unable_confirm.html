@@ -1,0 +1,15 @@
+{% extends  'account_base.html'%}
+
+
+{% block title %}Unable Confirm{% endblock %}
+
+
+{% block contents %}
+  <div class="container">
+    <h1>인증 절차를 해주세요.</h1>
+    <h3>안녕하세요. {{username}}님.</h3>
+    <h4>우선 저희 App 가입을 해주신것에 감사합니다. </h4>
+    <h4>회원가입이 완료되었다면 {{username}}님이 등록하신 Email :<span class="fw-bolder">{{email}}</span> 로 인증 메일이 전송되었을겁니다.</h4>
+    <h4>확인하신 후 인증 해주세요.</h4>
+  </div>
+{% endblock %}
