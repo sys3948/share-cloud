@@ -1,0 +1,44 @@
+{% extends 'account_base.html' %}
+
+{% block title %}Reset Your Password{% endblock %}
+
+{% block contents %}
+<div class="container">
+  <div class="alert alert-warring reset-msg"></div>
+  <h3 class="mt-3 mb-3">비밀번호 초기화 페이지 입니다.</h3>
+  <h4 class="mb-3">초기화 하실 비밀번호를 입력해주세요.</h4>
+  <form method="post">
+    {% csrf_token %}
+    <input class="form-control mb-3" type="password" name="reset-pw" placeholder="비밀번호를 입력해주세요." />
+    <input class="form-control mb-3" type="password" name="reset-pw-check" placeholder="비밀번호를 다시 입력해주세요." />
+    <input class="btn btn-primary" type="submit" value="Reset" />
+  </form>
+</div>
+<script>
+  document.getElementsByTagName('form')[0].addEventListener('submit', (e) => {
+    e.preventDefault();
+    document.getElementsByClassName('reset-msg')[0].style.display = 'none';
+    if(document.getElementsByName('reset-pw')[0].value.replace(/(\s*)/g, "")  === ""){
+        document.getElementsByClassName('reset-msg')[0].style.display = 'block';
+        document.getElementsByClassName('reset-msg')[0].innerText = '비밀번호를 입력해주세요.';
+        return false;
+    }
+    if(document.getElementsByName('reset-pw-check')[0].value.replace(/(\s*)/g, "")  === ""){
+        document.getElementsByClassName('reset-msg')[0].style.display = 'block';
+        document.getElementsByClassName('reset-msg')[0].innerText = '두번 째 비밀번호를 입력해주세요.';
+        return false;
+    }
+    if(document.getElementsByName('reset-pw')[0].value.replace(/(\s*)/g, "")  !== document.getElementsByName('reset-pw-check')[0].value.replace(/(\s*)/g, "")){
+        document.getElementsByClassName('reset-msg')[0].style.display = 'block';
+        document.getElementsByClassName('reset-msg')[0].innerText = '두 비밀번호가 동일하지 않습니다. 동일하게 입력해주세요.';
+        return false;
+    }
+
+    document.getElementsByName('reset-pw')[0].value = document.getElementsByName('reset-pw')[0].value.replace(/(\s*)/g, "");
+
+    document.getElementsByTagName('form')[0].submit();
+    
+    
+  });
+</script>
+{% endblock %}

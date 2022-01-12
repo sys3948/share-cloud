@@ -1,0 +1,9 @@
+<h1>안녕하세요 {{user}}님.</h1>
+
+<p>{{user}} 님의 비밀번호를 초기화 하긴 위한 메일입니다. </p>
+
+<p>비밀번호 초기화 하기위한 링크는 아래 링크입니다. 아래 링크를 클릭해주세요.</p>
+
+<h4><a href="http://{{ domain }}{% url 'account:reset_pw' uid=uid token=token %}">링크</a></h4>
+
+<p>감사합니다.</p>

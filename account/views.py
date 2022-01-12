@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, request
 from .models import Account
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -35,6 +35,12 @@ def login(request):
 
         return redirect('cloud:main')
     return render(request, 'login.html')
+
+
+def logout(request):
+    request.session.pop('id')
+    request.session.pop('username')
+    return redirect('cloud:main')
 
 
 def sign_up(request):
@@ -101,3 +107,49 @@ def unalbe_confirm_change_email(request):
         account.save()
         return redirect('account:re_send')
     return render(request, 'unable_confirm_change_email.html')
+
+
+def find_id(request):
+    if request.method == 'POST':
+        account = Account.objects.get(email=request.POST.get('find-email'))
+
+        if not account:
+            messages.error(request, '등록되지 않는 이메일입니다.', extra_tags='alert alert-danger')
+            return redirect('account:find_id')
+
+        send_mail(subject=account.username +'님 안녕하세요. ' + account.username + '님께서 찾으신 ID 입니다.', message=render_to_string('email/find_id_email.txt', {'user' : account.username, 'user_id' : account.user_id}), from_email=None, recipient_list=[request.POST.get('find-email')], html_message=render_to_string('email/find_id_email.txt', {'user' : account.username, 'user_id' : account.user_id}))
+        messages.info(request, '아이디를 해당 메일 ' + account.email + '로 전송했습니다. 확인해주세요.', extra_tags='alert alert-info')
+        return redirect('account:login')
+
+    return render(request, 'find_id.html')
+
+
+def find_pw(request):
+    if request.method == 'POST':
+        account = Account.objects.get(email=request.POST.get('find-email'))
+
+        if not account:
+            messages.error(request, '등록되지 않는 이메일입니다.', extra_tags='alert alert-danger')
+            return redirect('account:find_pw')
+
+        send_mail(subject=account.username +'님 안녕하세요. ' + account.username + '님의 비밀번호를 초기화 하기위한 메일입니다.', message=render_to_string('email/find_pw_email.txt', {'user' : account.username, 'domain' : get_current_site(request).domain, 'uid' : urlsafe_base64_encode(force_bytes(account.id)).encode().decode(), 'token' : account_activation_token.make_token(account)}), from_email=None, recipient_list=[request.POST.get('find-email')], html_message=render_to_string('email/find_pw_email.txt', {'user' : account.username, 'domain' : get_current_site(request).domain, 'uid' : urlsafe_base64_encode(force_bytes(account.id)).encode().decode(), 'token' : account_activation_token.make_token(account)}))
+        messages.info(request, '아이디를 해당 메일 ' + account.email + '로 전송했습니다. 확인해주세요.', extra_tags='alert alert-info')
+
+    return render(request, 'find_pw.html')
+
+
+def reset_pw(request, uid, token):
+    user_id = force_str(urlsafe_base64_decode(uid))
+    account = Account.objects.get(id=user_id)
+
+    if not account is not None and account_activation_token.check_token(account, token):
+        messages.error(request, '잘 못 된 토큰입니다.', extra_tags='alert alert-danger')
+
+    if request.method == 'POST':
+        account.password = generate_password_hash(request.POST.get('reset-pw'))
+        account.save()
+
+        messages.success(request, '비밀번호 변경을 성공했습니다. 로그인 해주세요.', extra_tags='alert alert-primary')
+
+        return redirect('account:login')
+    return render(request, 'reset_pw.html')
