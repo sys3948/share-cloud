@@ -67,3 +67,15 @@
       <li>Local host가 아닌 외부 File Server에 File Upload & DownLoad 하는 방법.</li>
     </ol>
   </ul><br /><br />
+
+
+  <h4>2022 - 01 - 16 : </h4>
+  - 회원 가입 후 인증 메일 전송할 시 인증 토큰 링크 생성에 관한 원리 대략적으로 분석 완료.<br />
+  - File Server로는 Ubuntu SAMBA Server로 사용하기로 결정.<br />
+  - File Server를 Django Projects에서 Access하기 위해 Django_smb module 사용할지 아니면 pysmb를 사용할지 결정해야한다.<br />
+  - 17일날 할 것. <br />
+  <ul>
+    <li>Ubuntu SAMBA Server 구축</li>
+    <li>SAMBA에 Access하기 위한 모듈 정하기.</li>
+    <li>SAMBA의 디렉토리 용량 제한 및 할당하는 방법 찾기.</li>
+  </ul><br /><br />

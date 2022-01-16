@@ -73,6 +73,10 @@ def confirm(request, uid, token):
     user_id = force_str(urlsafe_base64_decode(uid))
     account = Account.objects.get(id=user_id)
 
+    if account.confirm == 1:
+        messages.info(request, '이미 인증 완료가 됬습니다.', extra_tags='alert alert-info')
+        return redirect('cloud:main')
+
     if account is not None and account_activation_token.check_token(account, token):
         account.confirm =1
         account.save()
