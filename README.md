@@ -79,3 +79,13 @@
     <li>SAMBA에 Access하기 위한 모듈 정하기.</li>
     <li>SAMBA의 디렉토리 용량 제한 및 할당하는 방법 찾기.</li>
   </ul><br /><br />
+
+
+  <h4>2022 - 01 - 18 : </h4>
+  - Ubuntu SAMBA Server 구축 완료.<br />
+  - Host에서 SAMBA 접근까지 완료.<br />
+  - 19일날 할 것. <br />
+  <ul>
+    <li>SAMBA에 Access하기 위한 모듈 정하기.</li>
+    <li>SAMBA의 디렉토리 용량 제한 및 할당하는 방법 찾기.</li>
+  </ul><br /><br />
