@@ -89,3 +89,15 @@
     <li>SAMBA에 Access하기 위한 모듈 정하기.</li>
     <li>SAMBA의 디렉토리 용량 제한 및 할당하는 방법 찾기.</li>
   </ul><br /><br />
+
+
+  <h4>2022 - 01 - 19 : </h4>
+  - Ubuntu SAMBA Server로 접근하는 방법을 찾지 못 함.<br />
+  - 그래서 기존의 방식을 변경하려고 한다.<br />
+  - 기존의 방식 : 웹 서버(Nginx, Django), DB 서버(MySQL), 파일 서버(SamBa) 이렇게 세 개의 서버를 구축하여 Share Cloud App을 구현하는 것으로 계획<br />
+  - 변경 방식 : 웹 서버(Nginx, Django), DB 서버(MySQL), 파일 서버(Nginx) 웹서버로 구축해서 파일 업로드 다운로드를 웹 통신으로 구현하는 것으로 변경.<br />
+  - 20일날 할 것. <br />
+  <ul>
+    <li>Django에서 다른 웹 서버 파일 전송하는 방법 찾기</li>
+    <li>Main 페이지 디자인 하기.</li>
+  </ul><br /><br />
