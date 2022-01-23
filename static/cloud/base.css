@@ -1,0 +1,32 @@
+header {
+  border-bottom: 2px solid rgb(224, 224, 224);
+  min-width: 1200px;
+}
+
+.header {
+  height: 70px;
+}
+
+/* .m-block {
+  min-height: 470px;
+} */
+
+.l-block {
+  min-height: 470px;
+  width: 300px;
+  border-left: 2px solid rgb(224, 224, 224);
+  border-right: 2px solid rgb(224, 224, 224);
+}
+
+.r-block {
+  min-height: 470px;
+  border-right: 2px solid rgb(224, 224, 224);
+}
+
+footer {
+  border-top: 2px solid rgb(224, 224, 224);
+}
+
+.footer {
+  height: 60px;
+}

@@ -3,6 +3,13 @@
 
 <h3>진행 기록</h3>
 
+<h4>2022 - 01 - 24 : </h4>
+  - Main Templates 구현 중...<br />
+  - 25일날 할 것. <br />
+  <ul>
+    <li></li>
+  </ul><br /><br />
+
 
 <h4>2022 - 01 - 23 : </h4>
   - File Server 재구축(Nginx 설치, Python 설치, Flask 설치)<br />
@@ -10,7 +17,7 @@
   - Main 페이지 디자인 완료.<br />
   - 24일날 할 것. <br />
   <ul>
-    <li>미정</li>
+    <li>Main Templates 구현하기.</li>
   </ul><br /><br />
 
 
