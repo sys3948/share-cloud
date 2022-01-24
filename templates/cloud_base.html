@@ -27,6 +27,23 @@
         <div class="row">
           <div class="col-md-3 l-block">
             {# Folder Tree #}
+            <div class="t-list">
+              <div class="t-list-block">
+                <div class="f-block">All</div>
+                <div class="f-block f-level-0"><a href="#">Share Folder</a></div>
+                <div class="f-block f-level-0"><a href="#">MySelf Folder</a></div>
+              </div>
+            </div>
+            <div>
+              <div class="container p-block p-2">
+                <div>
+                  <h5>Size : </h5>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="20480" aria-valuenow="1024" style="width : 5%"></div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-md-9 r-block">
             {% block contents %}{% endblock %}

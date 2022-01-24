@@ -12,14 +12,49 @@ header {
 } */
 
 .l-block {
-  min-height: 470px;
+  min-height: 530px;
   width: 300px;
   border-left: 2px solid rgb(224, 224, 224);
   border-right: 2px solid rgb(224, 224, 224);
+  padding: 0;
+}
+
+.t-list {
+  min-height: 440px;
+  width: 100%;
+}
+
+.t-list-block {
+  width: 100%;
+  max-height: 440px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.f-block {
+  width: 100%;
+  height: 30px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-left: 5px;
+}
+
+.f-level-0 {
+  padding-left: 20px;
+}
+
+.p-bar {
+  border-top: 2px solid rgb(224, 224, 224);
+  max-height: 90px;
+  height: 90px;
+  width: 100%;
 }
 
 .r-block {
-  min-height: 470px;
+  min-height: 530px;
   border-right: 2px solid rgb(224, 224, 224);
 }
 

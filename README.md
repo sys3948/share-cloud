@@ -4,10 +4,13 @@
 <h3>진행 기록</h3>
 
 <h4>2022 - 01 - 24 : </h4>
-  - Main Templates 구현 중...<br />
+  - Main Templates 구현 중<br />
+  - Folder List & Size Progress Bar 디자인 구현.<br />
   - 25일날 할 것. <br />
   <ul>
-    <li></li>
+    <li>현재 구현된 DB Model을 변경해야 될 상황이 옴, Model 변경하기.</li>
+    <li>Main Templates의 Header부분 User DropDown 디자인 구현하기.</li>
+    <li>시간 여유가 있다면 Contents 부분 구현하기.</li>
   </ul><br /><br />
 
 
