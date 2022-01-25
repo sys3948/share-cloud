@@ -8,3 +8,4 @@ class Account(models.Model):
     email = models.EmailField()
     registe_datetime = models.DateTimeField(auto_now=True)
     confirm = models.BooleanField(null=True, default=False)
+    assign_store_size = models.IntegerField(default=20000)

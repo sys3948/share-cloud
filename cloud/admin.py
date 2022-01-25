@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import ShareStoreFile, StoreFile
+from .models import FileFolder, StoreFile
 
 # Register your models here.
 admin.site.register(StoreFile)
-admin.site.register(ShareStoreFile)
+admin.site.register(FileFolder)

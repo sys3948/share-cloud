@@ -3,6 +3,15 @@
 
 <h3>진행 기록</h3>
 
+<h4>2022 - 01 - 25 : </h4>
+  - account Model과 cloud Model 변경 상세 내용은 코드 참고.<br />
+  - Header DropDown Menu 구현.<br />
+  - 26일날 할 것. <br />
+  <ul>
+    <li>Contents 부분 구현하기.</li>
+    <li>view 구현하기.</li>
+  </ul><br /><br />
+
 <h4>2022 - 01 - 24 : </h4>
   - Main Templates 구현 중<br />
   - Folder List & Size Progress Bar 디자인 구현.<br />
