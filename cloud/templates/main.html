@@ -1,2 +1,121 @@
 {% extends "cloud_base.html" %}
 
+{% block stylesheet %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'cloud/main.css' %}" />
+{% endblock %}
+
+{% block contents %}
+  <div class="container f-contents">
+    <div class="f-header row mt-3 p-2">
+      <div class="col-md-8">
+        <h3>All</h3>
+      </div>
+      <div class="col-md-4 text-right">
+        <button type="button" class="btn btn-primary" id="upload-btn">Upload</button>
+      </div>
+    </div>
+    <div class="file-block mt-4">
+      <div class="container file-contents">
+        <div class="file-header">
+          <h4>Share File</h4>
+        </div>
+        <div class="file-body">
+          <table class="table">
+            <thead>
+              <tr class="table-primary text-light font-weight-bold">
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="file-block mt-2 ">
+      <div class="container file-contents">
+        <div class="file-header">
+          <h4>My File</h4>
+        </div>
+        <div class="file-body">
+          <table class="table">
+            <thead>
+              <tr class="table-primary text-light font-weight-bold">
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+              <tr>
+                <td>File Name</td>
+                <td>Path</td>
+                <td>User(ID)</td>
+                <td>Upload Date</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -17,6 +17,7 @@ header {
   border-left: 2px solid rgb(224, 224, 224);
   border-right: 2px solid rgb(224, 224, 224);
   padding: 0;
+  position: relative;
 }
 
 .t-list {
@@ -44,6 +45,11 @@ header {
 
 .f-level-0 {
   padding-left: 20px;
+}
+
+.p-block {
+  position: absolute;
+  bottom: 1%;
 }
 
 .p-bar {

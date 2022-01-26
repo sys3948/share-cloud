@@ -1,7 +1,15 @@
 # share-cloud
 <h2>Django로 구현하는 share cloud</h2>
 
-<h3>진행 기록</h3>
+<h3>진행 기록</h3><br>
+
+<h4>2022 - 01 - 25 : </h4>
+  - Main 페이지 Contents Templates 디자인 구현 완료.<br />
+  - 27일날 할 것. <br />
+  <ul>
+    <li>Main 페이지의 각 Folder 별 Templates 구현하기</li>
+    <li>view 구현하기.</li>
+  </ul><br /><br />
 
 <h4>2022 - 01 - 25 : </h4>
   - account Model과 cloud Model 변경 상세 내용은 코드 참고.<br />
