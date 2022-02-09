@@ -3,13 +3,20 @@
 
 <h3>진행 기록</h3><br>
 
-<h4>2022 - 01 - 25 : </h4>
-  - Main 페이지 Contents Templates 디자인 구현 완료.<br />
-  - 27일날 할 것. <br />
+<h4>2022 - 02 - 10 : </h4>
+  - Flask에서 NetWork 문제 발생함. 땜빵식으로 NetWork를 사용용도에 따라 변경하기로 함.<br />
+  - git 사용에 많은 오류 발생. 주말에 git에 대한 공부해야할 것.<br />
+  - Django와 Flask연결 했늗데 CORS Error 발생<br />
+  - 11일날 할 것. <br />
   <ul>
-    <li>Main 페이지의 각 Folder 별 Templates 구현하기</li>
-    <li>view 구현하기.</li>
+    <li>CORS Error 해결하기.</li>
+    <li>두 Server간의 통신 테스트 하기.</li>
+    <li>회원 가입 시 File Server에 해당 계정의 폴더 생성하기.</li>
   </ul><br /><br />
+
+<h4>2022 - 01 - 27 ~ 02 - 09 : </h4>
+  - File Server에 git 설치 및 Flask Test App 구현<br />
+  - 설 연휴 기한으로 많이 쉼(문제) <br />
 
 <h4>2022 - 01 - 25 : </h4>
   - account Model과 cloud Model 변경 상세 내용은 코드 참고.<br />

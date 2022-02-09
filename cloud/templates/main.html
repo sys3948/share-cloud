@@ -3,6 +3,7 @@
 {% block stylesheet %}
   {% load static %}
   <link rel="stylesheet" href="{% static 'cloud/main.css' %}" />
+  <script src="{% static 'getCookies.js' %}"></script>
 {% endblock %}
 
 {% block contents %}
@@ -43,24 +44,6 @@
                 <td>User(ID)</td>
                 <td>Upload Date</td>
               </tr>
-              <tr>
-                <td>File Name</td>
-                <td>Path</td>
-                <td>User(ID)</td>
-                <td>Upload Date</td>
-              </tr>
-              <tr>
-                <td>File Name</td>
-                <td>Path</td>
-                <td>User(ID)</td>
-                <td>Upload Date</td>
-              </tr>
-              <tr>
-                <td>File Name</td>
-                <td>Path</td>
-                <td>User(ID)</td>
-                <td>Upload Date</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -88,34 +71,28 @@
                 <td>User(ID)</td>
                 <td>Upload Date</td>
               </tr>
-              <tr>
-                <td>File Name</td>
-                <td>Path</td>
-                <td>User(ID)</td>
-                <td>Upload Date</td>
-              </tr>
-              <tr>
-                <td>File Name</td>
-                <td>Path</td>
-                <td>User(ID)</td>
-                <td>Upload Date</td>
-              </tr>
-              <tr>
-                <td>File Name</td>
-                <td>Path</td>
-                <td>User(ID)</td>
-                <td>Upload Date</td>
-              </tr>
-              <tr>
-                <td>File Name</td>
-                <td>Path</td>
-                <td>User(ID)</td>
-                <td>Upload Date</td>
-              </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    document.getElementById('upload-btn').addEventListener('click', (e) => {
+      const csrftoken = getCookie('csrftoken');
+      const request = new Request(
+        "http://192.168.56.104:5000/upload/",
+        {headers : {'X-CSRFToken' : csrftoken}}
+      );
+
+      fetch(request,{
+        method : "POST",
+        body : JSON.stringify({"msg" : "hello world"}),
+      }).then(response =>{
+        return response.json();
+      }).then(response => {
+        console.log(response);
+      });
+    });
+  </script>
 {% endblock %}
