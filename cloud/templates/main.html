@@ -80,15 +80,17 @@
   <script>
     document.getElementById('upload-btn').addEventListener('click', (e) => {
       const csrftoken = getCookie('csrftoken');
-      const request = new Request(
-        "http://192.168.56.104:5000/upload/",
-        {headers : {'X-CSRFToken' : csrftoken}}
-      );
 
-      fetch(request,{
+      console.log('fetch 실행 전');
+
+      fetch("{{domain}}" + "upload",{
         method : "POST",
+        headers : {
+          'X-CSRFToken' : csrftoken,
+        },
         body : JSON.stringify({"msg" : "hello world"}),
       }).then(response =>{
+        console.log(response);
         return response.json();
       }).then(response => {
         console.log(response);

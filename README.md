@@ -3,6 +3,16 @@
 
 <h3>진행 기록</h3><br>
 
+<h4>2022 - 02 - 13 : </h4>
+  - CORS Error 해결완료! CORS policy 정책에 걸려서 통신이 되지 않았던 상황은 url을 잘 못 기입했기에 CORS policy 정책에 의해 block 된거였다.<br />
+  - 두 Server간 http 통신으로 폴더 생성하는 법까지 완료<br />
+  - 14일날 할 것. <br />
+  <ul>
+    <li>회원 가입 시 File Server에 해당 계정의 폴더 생성하기.</li>
+    <li>생성된 폴더 용량 정보를 가져올 수 있는지 확인해보기.</li>
+    <li>File Upload하기 위한 Modal 디자인 및 구현하기.</li>
+  </ul><br /><br />
+
 <h4>2022 - 02 - 10 : </h4>
   - Flask에서 NetWork 문제 발생함. 땜빵식으로 NetWork를 사용용도에 따라 변경하기로 함.<br />
   - git 사용에 많은 오류 발생. 주말에 git에 대한 공부해야할 것.<br />
