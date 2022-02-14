@@ -12,15 +12,16 @@ from decorate.check_decorate import login_confirm_check
 from static.domains import domain as domain_urls, key
 
 # Create your views here.
-# @login_confirm_check
+@login_confirm_check
 def main(request):
     return render(request, 'main.html', {'domain' : domain_urls})
 
 
 def test_request(request):
-    data_encoded = cryptocode.encrypt(str(1), key)
-    response = http_request.post(domain_urls + '/create_folder', data={'id' : data_encoded})
-    print('Response는' + str(response))
-    print('Response의 Status Code는' + str(response.status_code))
-    print('Response의 Content는' + str(response.content))
+    print(settings.KEY)
+    # data_encoded = cryptocode.encrypt(str(1), key)
+    # response = http_request.post(domain_urls + '/create_folder', data={'id' : data_encoded})
+    # print('Response는' + str(response))
+    # print('Response의 Status Code는' + str(response.status_code))
+    # print('Response의 Content는' + str(response.content))
     return HttpResponse('test')

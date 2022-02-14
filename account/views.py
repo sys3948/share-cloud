@@ -11,9 +11,12 @@ from django.conf import settings
 
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests as http_request
+import cryptocode
 
 from .token import account_activation_token
 from decorate.check_decorate import login_confirm_check, login_check
+from static.domains import domain as domain_urls
 
 # Create your views here.
 def login(request):
@@ -58,6 +61,21 @@ def sign_up(request):
 
         account = Account(user_id = request_data.get('user-id'), username = request_data.get('user-name'), password = generate_password_hash(request_data.get('user-pw')), email = request_data.get('user-email'))
         account.save()
+        response = ''
+
+        try:
+            data_encoded = cryptocode.encrypt(str(account.id), settings.KEY)
+            response = http_request.post(domain_urls + '/create_folder', data={'id' : data_encoded})
+            # response 값에 대한 에러 처리문 생각해야한다.
+        except Exception as e:
+            account.delete()
+            messages.error(request, '회원 가입시 에러가 발생! 에러 내용 : ' + str(e) + ' 그렇기에 다시 가입해주세요.', extra_tags='alert alert-danger')
+            return redirect('account:sign_up')
+
+        if not response:
+            account.delete()
+            messages.error(request, '회원 가입시 에러가 발생! 그렇기에 다시 가입해주세요.', extra_tags='alert alert-danger')
+            return redirect('account:sign_up')
 
         send_mail(subject='Thanks Sign Up My Web App!', message=render_to_string('email/account_confirm_msg.txt', {'user' : account.username, 'domain' : get_current_site(request).domain, 'uid' : urlsafe_base64_encode(force_bytes(account.id)).encode().decode(), 'token' : account_activation_token.make_token(account)}), from_email=None, recipient_list=[request_data.get('user-email')], html_message=render_to_string('email/account_confirm_msg.html', {'user' : account.username, 'domain' : get_current_site(request).domain, 'uid' : urlsafe_base64_encode(force_bytes(account.id)).encode().decode(), 'token' : account_activation_token.make_token(account)}))
 
