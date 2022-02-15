@@ -72,9 +72,13 @@ def sign_up(request):
             messages.error(request, '회원 가입시 에러가 발생! 에러 내용 : ' + str(e) + ' 그렇기에 다시 가입해주세요.', extra_tags='alert alert-danger')
             return redirect('account:sign_up')
 
-        if not response:
+        if response.status_code != 200:
             account.delete()
             messages.error(request, '회원 가입시 에러가 발생! 그렇기에 다시 가입해주세요.', extra_tags='alert alert-danger')
+            return redirect('account:sign_up')
+        if response.json().get('status') == 500:
+            account.delete()
+            messages.error(request, '회원 가입시 에러가 발생! 에러 내용 : ' + str(response.json().get('msg')) + ' 그렇기에 다시 가입해주세요.', extra_tags='alert alert-danger')
             return redirect('account:sign_up')
 
         send_mail(subject='Thanks Sign Up My Web App!', message=render_to_string('email/account_confirm_msg.txt', {'user' : account.username, 'domain' : get_current_site(request).domain, 'uid' : urlsafe_base64_encode(force_bytes(account.id)).encode().decode(), 'token' : account_activation_token.make_token(account)}), from_email=None, recipient_list=[request_data.get('user-email')], html_message=render_to_string('email/account_confirm_msg.html', {'user' : account.username, 'domain' : get_current_site(request).domain, 'uid' : urlsafe_base64_encode(force_bytes(account.id)).encode().decode(), 'token' : account_activation_token.make_token(account)}))
