@@ -46,6 +46,9 @@
                 <div class="f-block f-level-0"><a href="#">Share Folder</a></div>
                 <div class="f-block f-level-0"><a href="#">MySelf Folder</a></div>
               </div>
+              <div class="t-list-btn-block p-1">
+                <button type="button" class="btn btn-primary" id="folder-create-btn" data-toggle="modal" data-target="#FolderCreateModal">Create Folder</button>
+              </div>
             </div>
             <div>
               <div class="container p-block p-2">
@@ -58,6 +61,7 @@
               </div>
             </div>
           </div>
+          {% include 'include/FolderCreateModal.html' %}
           <div class="col-md-9 r-block">
             {% block contents %}{% endblock %}
           </div>
