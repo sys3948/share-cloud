@@ -8,23 +8,72 @@
         <div class="modal-body">
           <div class="form-group">
             <label class="font-weight-bolder">Folder 선택</label>
-            <select class="form-control">
-              <option value="">Folder</option>
+            <select class="form-control" id="folderSelect">
+              <option value="root">Home</option>
             </select>
           </div>
           <div class="form-group">
             <label class="font-weight-bolder">Folder 이름</label>
-            <input type="text" name="" id="" class="form-control">
+            <input type="text" name="" id="folderName" class="form-control">
+          </div>
+          <div class="container">
+            <div class="alert alert-danger modal-msg" id="FM-msg">안내 메세지입니다.</div>
           </div>
           <div class="row">
             <div class="col-md-6 text-center">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" id="cancelBtn">Cancel</button>
             </div>
             <div class="col-md-6 text-center">
-              <button type="button" class="btn btn-primary" >Create</button>
+              <button type="button" class="btn btn-primary" id="createFolder" >Create</button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    document.getElementById('cancelBtn').addEventListener('click', (e) => {
+      document.getElementById('folderName').value = '';
+    });
+
+    document.getElementById('createFolder').addEventListener('click', (e) => {
+      // 폴더 만들기
+      document.getElementById('FM-msg').style.display = 'none';
+      document.getElementById('FM-msg').innerText = '';
+
+      if(document.getElementById('folderName').value.replace(/(\s*)/g, "") === ''){
+        document.getElementById('FM-msg').style.display = 'block';
+        document.getElementById('FM-msg').innerText = '폴더 이름을 입력해주세요.';
+        return false;
+      }
+
+      let upperFolder = '';
+      let folderName = '';
+
+      if(document.getElementById('folderSelect').value === 'root'){
+        upperFolder += '/';
+      }else{
+        upperFolder += document.getElementById('folderSelect').value;
+      }
+
+      folderName += document.getElementById('folderName').value.replace(/(\s*)/g, "");
+
+      // fetch 통신
+      const csrftoken = getCookie('csrftoken');
+
+      fetch('/create_folder', {
+        method : "POST",
+        headers : {
+          'X-CSRFToken' : csrftoken,
+        },
+        body : JSON.stringify({"upper" : upperFolder, "folderName" : folderName}),
+      }).then((response) => {
+        return response.json()
+      }).then((response) => {
+        if(response.create){
+          // location.replce
+        }
+        // msg 출력
+      });
+    });
+  </script>

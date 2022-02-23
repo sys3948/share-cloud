@@ -9,6 +9,7 @@ class FileFolder(models.Model):
     oner_id = models.ForeignKey('account.Account', on_delete=CASCADE, related_name='oner_id',)
     upper_folder_id = models.ForeignKey('self', on_delete=CASCADE, related_name='upper_id')
     level = models.IntegerField(default=0)
+    share_able = models.BooleanField(default=False)
 
 
 class StoreFile(models.Model):

@@ -5,6 +5,7 @@
 {% block stylesheet %}
   {% load static %}
   <link rel="stylesheet" href="{% static 'account/sign_up.css' %}" />
+  <script src="{% static 'getCookies.js' %}"></script>
 {% endblock %}
 
 {% block contents %}
@@ -52,26 +53,6 @@
   <script>
 
     // fetch API로 ajax POST 통신시 Django에서는 보안상의 이유로 CSRF Token을 생성해줘야한다. 
-    // CSRF Token 생성 함수.
-    function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        console.log(document.cookie);
-        console.log(document.cookie.split(';'));
-        console.log(document.cookie.split(';').length);
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          // Does this cookie string begin with the name we want?
-          console.log(name.length);
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
     const csrftoken = getCookie('csrftoken');
     console.log(csrftoken);
 

@@ -10,6 +10,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'base.css' %}" />
     <link rel="stylesheet" href="{% static 'cloud/base.css' %}" />
+    <script src="{% static 'getCookies.js' %}"></script>
     {% block stylesheet %}{% endblock %}
   </head>
   <body>
@@ -49,6 +50,11 @@
               <div class="t-list-btn-block p-1">
                 <button type="button" class="btn btn-primary" id="folder-create-btn" data-toggle="modal" data-target="#FolderCreateModal">Create Folder</button>
               </div>
+              <script>
+                document.getElementById('folder-create-btn').addEventListener('click', (e) => {
+                  // FolderCreateModal의 select element contents 초기화.
+                });
+              </script>
             </div>
             <div>
               <div class="container p-block p-2">

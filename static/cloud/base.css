@@ -76,3 +76,7 @@ footer {
 .footer {
   height: 60px;
 }
+
+.modal-msg {
+  display: none;
+}
