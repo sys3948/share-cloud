@@ -7,7 +7,7 @@ class FileFolder(models.Model):
     folder_id = models.IntegerField(default=1)
     folder_name = models.CharField(max_length=300)
     oner_id = models.ForeignKey('account.Account', on_delete=CASCADE, related_name='oner_id',)
-    upper_folder_id = models.ForeignKey('self', on_delete=CASCADE, related_name='upper_id')
+    upper_folder_id = models.ForeignKey('self', on_delete=CASCADE, related_name='upper_id', null=True)
     level = models.IntegerField(default=0)
     share_able = models.BooleanField(default=False)
 

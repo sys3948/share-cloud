@@ -65,7 +65,7 @@ def sign_up(request):
 
         try:
             data_encoded = cryptocode.encrypt(str(account.id), settings.KEY)
-            response = http_request.post(domain_urls + '/create_folder', data={'id' : data_encoded})
+            response = http_request.post(domain_urls + '/create_user_folder', data={'id' : data_encoded})
             # response 값에 대한 에러 처리문 생각해야한다.
         except Exception as e:
             account.delete()
