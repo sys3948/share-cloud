@@ -10,6 +10,11 @@
             <label class="font-weight-bolder">Folder 선택</label>
             <select class="form-control" id="folderSelect">
               <option value="root">Home</option>
+              {% if folders_data %}
+                {% for folder_data in folders_data %}
+                  <option value={{folder_data.id}}>{{folder_data.folder_name}}</option>
+                {% endfor %}
+              {% endif %}
             </select>
           </div>
           <div class="form-group">
@@ -53,10 +58,13 @@
       if(document.getElementById('folderSelect').value === 'root'){
         upperFolder = null;
       }else{
-        upperFolder += document.getElementById('folderSelect').value;
+        upperFolder = Number(document.getElementById('folderSelect').value);
       }
 
       folderName += document.getElementById('folderName').value.replace(/(\s*)/g, "");
+
+      console.log(upperFolder);
+      console.log(typeof(upperFolder));
 
       // fetch 통신
       const csrftoken = getCookie('csrftoken');

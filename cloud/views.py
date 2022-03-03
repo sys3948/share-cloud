@@ -11,6 +11,7 @@ import cryptocode
 import json
 
 from .models import FileFolder, StoreFile, ShareFolder
+from account.models import Account
 from decorate.check_decorate import login_confirm_check
 from static.domains import domain as domain_urls, key
 
@@ -20,24 +21,39 @@ def main(request):
     if request.method == 'POST':
         request_data = json.loads(request.body.decode('utf-8'))
 
-        print(request.session.get('id'))
+        account = Account.objects.get(id = request.session.get('id'))
 
-        if FileFolder.objects.filter(oner_id = request.session.get('id'), upper_folder_id__exact = None, folder_name = request_data.get('folderName')):
+        if FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper'), folder_name = request_data.get('folderName')).exists():
             # 폴더가 존재한다.
             return JsonResponse({"confirm" : False, "msg" : "존재하는 폴더입니다."})
-        
-        if not request_data.get('upper'):
-            print(str(request_data.get('upper')) + '는 None으로 출력하는가?')
-            folder = FileFolder.objects.filter(oner_id = request.session.get('id'), upper_folder_id__exact = None, folder_name = request_data.get('folderName'))
+
+        upper_folder = request_data.get('upper')
+
+        if request_data.get('upper'):
+            upper_folder = FileFolder.objects.get(id = request_data.get('upper'))
+
+        # upper_folder_id와 oner_id 값을 조회해서 해당 query들 중 folder_id 값이 가장 큰 것을 조회하기.
+        if FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper')).exists():
+            # 해당 조건(upper_folder_id와 oner_id)에 맞는 쿼리들이 존재하는지 탐색
+            folder_num = FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper')).order_by('-folder_id')[0]
+            # print(upper_folder.id)
+            # print(upper_folder.folder_name)
+            # print(upper_folder.folder_id)
+            folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'), folder_id = folder_num.folder_id + 1)
+            folder.save()
         else:
-            folder = FileFolder.objects.filter(oner_id = request.session.get('id'), upper_folder_id =request_data.get('upper') , folder_name = request_data.get('folderName'))
-
-        print(folder)
-
-        if folder:
+            # 존재하지 않으면 삽입히가.
+            folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'))
+        
+            folder.save()
 
         return JsonResponse({"confirm" : True, "msg" : "폴더를 생성했습니다."})
-    return render(request, 'main.html', {'domain' : domain_urls})
+    folders_data = None
+
+    if FileFolder.objects.filter(oner_id = request.session.get('id')).exists():
+        folders_data = FileFolder.objects.filter(oner_id = request.session.get('id'))
+
+    return render(request, 'main.html', {'folders_data' : folders_data})
 
 
 def test_request(request):
