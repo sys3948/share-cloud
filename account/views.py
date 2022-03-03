@@ -21,22 +21,23 @@ from static.domains import domain as domain_urls
 # Create your views here.
 def login(request):
     if request.method == "POST":
-        account = Account.objects.get(user_id = request.POST.get('user-id'))
+        if Account.objects.filter(user_id = request.POST.get('user-id')).exists():
+            account = Account.objects.get(user_id = request.POST.get('user-id'))
 
-        if not account:
-            # 존재하지 않는 ID
-            messages.error(request, '존재하지 않는 ID 입니다.', extra_tags='alert alert-danger')
-            return redirect('account:login')
-        
-        if not check_password_hash(account.password, request.POST.get('user-pw')):
-            # 비밀번호가 틀림.
-            messages.error(request, '비밀번호가 틀렸습니다.', extra_tags='alert alert-danger')
-            return redirect('account:login')
+            if not check_password_hash(account.password, request.POST.get('user-pw')):
+                # 비밀번호가 틀림.
+                messages.error(request, '비밀번호가 틀렸습니다.', extra_tags='alert alert-danger')
+                return redirect('account:login')
 
-        request.session['id'] = account.id
-        request.session['username'] = account.username
+            request.session['id'] = account.id
+            request.session['username'] = account.username
 
-        return redirect('cloud:main')
+            return redirect('cloud:main')
+
+        # 존재하지 않는 ID
+        messages.error(request, '존재하지 않는 ID 입니다.', extra_tags='alert alert-danger')
+        return redirect('account:login')
+
     return render(request, 'login.html')
 
 
@@ -68,6 +69,7 @@ def sign_up(request):
             response = http_request.post(domain_urls + '/create_user_folder', data={'id' : data_encoded})
             # response 값에 대한 에러 처리문 생각해야한다.
         except Exception as e:
+            print(e)
             account.delete()
             messages.error(request, '회원 가입시 에러가 발생! 에러 내용 : ' + str(e) + ' 그렇기에 다시 가입해주세요.', extra_tags='alert alert-danger')
             return redirect('account:sign_up')

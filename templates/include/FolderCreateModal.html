@@ -47,11 +47,11 @@
         return false;
       }
 
-      let upperFolder = '';
+      let upperFolder;
       let folderName = '';
 
       if(document.getElementById('folderSelect').value === 'root'){
-        upperFolder += '/';
+        upperFolder = null;
       }else{
         upperFolder += document.getElementById('folderSelect').value;
       }
@@ -61,7 +61,7 @@
       // fetch 통신
       const csrftoken = getCookie('csrftoken');
 
-      fetch('/create_folder', {
+      fetch('', {
         method : "POST",
         headers : {
           'X-CSRFToken' : csrftoken,
@@ -70,9 +70,12 @@
       }).then((response) => {
         return response.json()
       }).then((response) => {
-        if(response.create){
+        if(response.confirm){
           // location.replce
+          alert(response.msg);
         }
+        document.getElementById('FM-msg').style.display = 'block';
+        document.getElementById('FM-msg').innerText = response.msg;
         // msg 출력
       });
     });
