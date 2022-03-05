@@ -1,7 +1,17 @@
 # share-cloud
 <h2>Django로 구현하는 share cloud</h2>
 
+<h3>File Server : <a href="https://github.com/sys3948/share-cloud-FS">https://github.com/sys3948/share-cloud-FS</a></h3>
+
 <h3>진행 기록</h3><br>
+
+<h4>2022 - 03 - 06 : </h4>
+  - FS에서 폴더 생성 구현.<br />
+  - <br />
+  - 다음 진행할 것(3월 7일)<br />
+  <ul>
+    <li></li>
+  </ul><br /><br />
 
 <h4>2022 - 03 - 05 : </h4>
   - folder 생성 DB 저장 작업 중(DB에 저장한 정보 FS에 전송하기.)<br />

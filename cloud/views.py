@@ -57,6 +57,10 @@ def main(request):
             print(e)
             folder.delete()
             JsonResponse({"confirm" : False, "msg" : "폴더를 생성을 실패했습니다. 실패 내용 : " + str(e)})
+
+        if response.status_code != 200:
+            account.delete()
+            return JsonResponse({"confirm" : False, "msg" : "폴더 생성을 실패했습니다. 실패 내용 : " + str(response.json().get('msg'))})
         
 
         return JsonResponse({"confirm" : True, "msg" : "폴더를 생성했습니다."})
@@ -65,10 +69,6 @@ def main(request):
 
     if FileFolder.objects.filter(oner_id = request.session.get('id')).exists():
         folders_data = FileFolder.objects.filter(oner_id = request.session.get('id'))
-
-    select_folder = FileFolder.objects.filter(id = 1)[0]
-
-    print(select_folder.upper_folder_id)
 
     return render(request, 'main.html', {'folders_data' : folders_data})
 
