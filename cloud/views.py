@@ -13,7 +13,7 @@ import json
 from .models import FileFolder, StoreFile, ShareFolder
 from account.models import Account
 from decorate.check_decorate import login_confirm_check
-from static.domains import domain as domain_urls, key
+from static.domains import domain as domain_urls
 
 # Create your views here.
 @login_confirm_check
@@ -36,22 +36,39 @@ def main(request):
         if FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper')).exists():
             # 해당 조건(upper_folder_id와 oner_id)에 맞는 쿼리들이 존재하는지 탐색
             folder_num = FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper')).order_by('-folder_id')[0]
-            # print(upper_folder.id)
-            # print(upper_folder.folder_name)
-            # print(upper_folder.folder_id)
             folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'), folder_id = folder_num.folder_id + 1)
-            folder.save()
         else:
             # 존재하지 않으면 삽입히가.
             folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'))
         
-            folder.save()
+        folder.save()
+
+        root_path = cryptocode.encrypt(str(folder.oner_id.id), settings.KEY)
+
+        upper_folder_path = ''
+        if folder.upper_folder_id:
+            upper_folder_path = cryptocode.encrypt(str(folder.upper_folder_id.folder_id), settings.KEY)
+
+        folder_path = cryptocode.encrypt(str(folder.folder_id), settings.KEY)
+
+        try:
+            response = http_request.post(domain_urls + '/create_folder', data={'root' : root_path, 'upper_folder' : upper_folder_path, 'folder' : folder_path})
+        except Exception as e:
+            print(e)
+            folder.delete()
+            JsonResponse({"confirm" : False, "msg" : "폴더를 생성을 실패했습니다. 실패 내용 : " + str(e)})
+        
 
         return JsonResponse({"confirm" : True, "msg" : "폴더를 생성했습니다."})
+
     folders_data = None
 
     if FileFolder.objects.filter(oner_id = request.session.get('id')).exists():
         folders_data = FileFolder.objects.filter(oner_id = request.session.get('id'))
+
+    select_folder = FileFolder.objects.filter(id = 1)[0]
+
+    print(select_folder.upper_folder_id)
 
     return render(request, 'main.html', {'folders_data' : folders_data})
 
@@ -59,10 +76,10 @@ def main(request):
 def test_request(request):
     # print(settings.KEY)
     # data_encoded = cryptocode.encrypt(str(1), key)
-    response = http_request.get(domain_urls + 'test_def')
-    print('Response는' + str(response))
-    print('Response의 Status Code는' + str(response.status_code))
-    print('Response의 Content는' + str(response.content))
-    print('Response의 Json은' + str(response.json()))
-    print('Response의 Json의 status 값은 ' + str(response.json().get('status')))
+    # response = http_request.get(domain_urls + 'test_def')
+    # print('Response는' + str(response))
+    # print('Response의 Status Code는' + str(response.status_code))
+    # print('Response의 Content는' + str(response.content))
+    # print('Response의 Json은' + str(response.json()))
+    # print('Response의 Json의 status 값은 ' + str(response.json().get('status')))
     return HttpResponse('test')

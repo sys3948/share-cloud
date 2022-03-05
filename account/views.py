@@ -62,10 +62,10 @@ def sign_up(request):
 
         account = Account(user_id = request_data.get('user-id'), username = request_data.get('user-name'), password = generate_password_hash(request_data.get('user-pw')), email = request_data.get('user-email'))
         account.save()
-        response = ''
+        
+        data_encoded = cryptocode.encrypt(str(account.id), settings.KEY)
 
         try:
-            data_encoded = cryptocode.encrypt(str(account.id), settings.KEY)
             response = http_request.post(domain_urls + '/create_user_folder', data={'id' : data_encoded})
             # response 값에 대한 에러 처리문 생각해야한다.
         except Exception as e:
