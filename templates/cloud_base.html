@@ -44,13 +44,35 @@
             <div class="t-list">
               <div class="t-list-block">
                 <div class="f-block">All</div>
-                <div class="f-block f-level-0"><a href="#">Share Folder</a></div>
-                <div class="f-block f-level-0"><a href="#">MySelf Folder</a></div>
+                <div class="f-block f-level-0" data-level="0"><a href="#">Share Folder</a></div>
+                {% if share_folders_data %}
+                  {% for share_folder in share_folders_data %}
+                    {% if share_folder.onner_id != share_folder.share_user_id %}
+                      <div class="f-block f-level-1" data-level="1"><a href="#">{{share_folder.share_folder_id.folder_name}}</a></div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <div class="f-block f-level-0" data-level="0"><a href="#">MySelf Folder</a></div>
+                {% if share_folders_data %}
+                  {% for share_folder in share_folders_data %}
+                    {% if share_folder.onner_id == share_folder.share_user_id %}
+                      <div class="f-block f-level-{{share_folder.share_folder_id.level}}" data-level="{{share_folder.share_folder_id.level}}"><a href="#">{{share_folder.share_folder_id.folder_name}}</a></div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
               </div>
               <div class="t-list-btn-block p-1">
                 <button type="button" class="btn btn-primary" id="folder-create-btn" data-toggle="modal" data-target="#FolderCreateModal">Create Folder</button>
               </div>
               <script>
+                for(let i = 0; i < document.getElementsByClassName('f-block').length; i++){
+                  let level = document.getElementsByClassName('f-block')[i].dataset['level'];
+                  level = Number(level);
+
+                  let value = 20 + (level * 10);
+                  document.getElementsByClassName('f-block')[i].style.paddingLeft = value + "px";
+                }
+
                 document.getElementById('folder-create-btn').addEventListener('click', (e) => {
                   // FolderCreateModal의 select element contents 초기화.
                   document.getElementById('FM-msg').style.display = 'none';

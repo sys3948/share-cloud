@@ -36,12 +36,14 @@ def main(request):
         if FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper')).exists():
             # 해당 조건(upper_folder_id와 oner_id)에 맞는 쿼리들이 존재하는지 탐색
             folder_num = FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper')).order_by('-folder_id')[0]
-            folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'), folder_id = folder_num.folder_id + 1)
+            folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'), folder_id = folder_num.folder_id + 1, level = folder_num.level + 1)
         else:
             # 존재하지 않으면 삽입히가.
             folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'))
         
         folder.save()
+        share_folder = ShareFolder(share_folder_id = folder, onner_id = account, share_user_id = account)
+        share_folder.save()
 
         root_path = cryptocode.encrypt(str(folder.oner_id.id), settings.KEY)
 
@@ -55,22 +57,36 @@ def main(request):
             response = http_request.post(domain_urls + '/create_folder', data={'root' : root_path, 'upper_folder' : upper_folder_path, 'folder' : folder_path})
         except Exception as e:
             print(e)
+            share_folder.delete()
             folder.delete()
             JsonResponse({"confirm" : False, "msg" : "폴더를 생성을 실패했습니다. 실패 내용 : " + str(e)})
 
         if response.status_code != 200:
-            account.delete()
+            share_folder.delete()
+            folder.delete()
             return JsonResponse({"confirm" : False, "msg" : "폴더 생성을 실패했습니다. 실패 내용 : " + str(response.json().get('msg'))})
         
 
         return JsonResponse({"confirm" : True, "msg" : "폴더를 생성했습니다."})
 
     folders_data = None
+    share_folders_data = None
 
     if FileFolder.objects.filter(oner_id = request.session.get('id')).exists():
         folders_data = FileFolder.objects.filter(oner_id = request.session.get('id'))
+    if ShareFolder.objects.extra(where=["onner_id_id = %s OR share_user_id_id = %s"], params=[request.session.get('id'), request.session.get('id')]).exists():
+        share_folders_data = ShareFolder.objects.extra(where=["onner_id_id = %s OR share_user_id_id = %s"], params=[request.session.get('id'), request.session.get('id')]).order_by('timestamp')
 
-    return render(request, 'main.html', {'folders_data' : folders_data})
+    if share_folders_data:
+        for share_folder in share_folders_data:
+            print(share_folder.share_folder_id)
+            print(share_folder.share_folder_id.id)
+            print(share_folder.share_folder_id.folder_name)
+            print(share_folder.share_folder_id.upper_folder_id)
+            if share_folder.share_folder_id.upper_folder_id:
+                print(share_folder.share_folder_id.upper_folder_id.folder_name)
+
+    return render(request, 'main.html', {'folders_data' : folders_data, 'share_folders_data' : share_folders_data})
 
 
 def test_request(request):
