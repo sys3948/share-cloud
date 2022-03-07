@@ -5,10 +5,10 @@ from django.db import models
 class FileFolder(models.Model):
     folder_id = models.IntegerField(default=1)
     folder_name = models.CharField(max_length=300)
+    folder_path = models.CharField(max_length=300)
     oner_id = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='oner_id',)
     upper_folder_id = models.ForeignKey('self', on_delete=models.CASCADE, related_name='upper_id', null=True)
     level = models.IntegerField(default=1)
-    share_able = models.BooleanField(default=False)
 
 
 class StoreFile(models.Model):
@@ -25,4 +25,5 @@ class ShareFolder(models.Model):
     onner_id = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='onner_id')
     share_user_id = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='share_id')
     timestamp = models.DateTimeField(auto_now=True)
+    gropunum = models.IntegerField()
 
