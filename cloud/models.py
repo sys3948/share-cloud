@@ -25,5 +25,5 @@ class ShareFolder(models.Model):
     onner_id = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='onner_id')
     share_user_id = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='share_id')
     timestamp = models.DateTimeField(auto_now=True)
-    gropunum = models.IntegerField()
+    groupnum = models.IntegerField()
 

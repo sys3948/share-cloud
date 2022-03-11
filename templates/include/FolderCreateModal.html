@@ -63,9 +63,6 @@
 
       folderName += document.getElementById('folderName').value.replace(/(\s*)/g, "");
 
-      console.log(upperFolder);
-      console.log(typeof(upperFolder));
-
       // fetch 통신
       const csrftoken = getCookie('csrftoken');
 
@@ -81,6 +78,7 @@
         if(response.confirm){
           // location.replce
           alert(response.msg);
+          return location.replace();
         }
         document.getElementById('FM-msg').style.display = 'block';
         document.getElementById('FM-msg').innerText = response.msg;
