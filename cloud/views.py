@@ -22,46 +22,35 @@ def main(request):
         request_data = json.loads(request.body.decode('utf-8'))
 
         account = Account.objects.get(id = request.session.get('id'))
-        folder_path = str(request.session.get('id')) + '/'
 
         if FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper'), folder_name = request_data.get('folderName')).exists():
             # 폴더가 존재한다.
             return JsonResponse({"confirm" : False, "msg" : "존재하는 폴더입니다."})
 
+        # folder 정보 저장하기.
         upper_folder = request_data.get('upper')
+        folder_id = None
+        folder_path = str(request.session.get('id')) + '/'
+        level = 1
+        groupnum = None
 
-        print('upper 값은 ' + str(request_data.get('upper')))
-
+        # 상위 폴더 체크
         if upper_folder:
             upper_folder = FileFolder.objects.get(id = upper_folder)
-            folder_path = upper_folder.folder_path + str(upper_folder.id)
-
-            print('상위 폴더 정보. ' + str(upper_folder))
-            print('상위 폴더 id. ' + str(upper_folder.id))
-            print('상위 폴더 name. ' + str(upper_folder.folder_name))
-            print('상위 폴더 path. ' + str(upper_folder.folder_path))
-
-        # upper_folder_id와 oner_id 값을 조회해서 해당 query들 중 folder_id 값이 가장 큰 것을 조회하기.
-        if FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper')).exists():
-            # 해당 조건(upper_folder_id와 oner_id)에 맞는 쿼리들이 존재하는지 탐색
-            print('상위폴더가 존재함.')
-            folder_num = FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = request_data.get('upper')).order_by('-folder_id')[0]
-            folder_path += str(folder_num.id)
-            print(folder_path)
-            folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'), folder_id = folder_num.folder_id + 1, level = folder_num.level + 1, folder_path = folder_path)
+            folder_path = upper_folder.folder_path + str(upper_folder.id) + '/'
+            level = upper_folder.level + 1
+            groupnum = int(upper_folder.folder_path.split('/')[1]) if upper_folder.folder_path.split('/')[1] else upper_folder.id
+            folder_id = FileFolder.objects.filter(oner_id = account.id, upper_folder_id = upper_folder.id).order_by('-folder_id')[0].folder_id + 1 if FileFolder.objects.filter(oner_id = account.id, upper_folder_id = upper_folder.id).exists() else 1
         else:
-            # 존재하지 않으면 삽입히가.
-            folder = FileFolder(oner_id = account, upper_folder_id = upper_folder, folder_name = request_data.get('folderName'), folder_path = folder_path)
-        
+            folder_id = FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = upper_folder).order_by('-folder_id')[0].folder_id + 1 if FileFolder.objects.filter(oner_id = account.id, upper_folder_id__exact = upper_folder).exists() else 1
+
+        folder = FileFolder(folder_id = folder_id, folder_name = request_data.get('folderName'), upper_folder_id = upper_folder, level = level, folder_path = folder_path, oner_id = account)
         folder.save()
-        if len(folder.folder_path.split('/')) == 2 and folder.folder_path.split('/')[1] == '':
-            groupnum = folder.id
-        else:
-            groupnum = int(folder.folder_path.split('/')[1])
-        print('groupnum : ' + str(groupnum))
-        share_folder = ShareFolder(share_folder_id = folder, onner_id = account, share_user_id = account, groupnum = groupnum)
+
+        share_folder = ShareFolder(share_folder_id = folder, onner_id = account, share_user_id = account, groupnum = groupnum) if groupnum else ShareFolder(share_folder_id = folder, onner_id = account, share_user_id = account, groupnum = folder.id)
         share_folder.save()
 
+        # File Server에 생성할 폴더 전송하기.
         root_path = cryptocode.encrypt(str(folder.oner_id.id), settings.KEY)
 
         upper_folder_path = ''
