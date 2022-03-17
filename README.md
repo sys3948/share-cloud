@@ -5,6 +5,16 @@
 
 <h3>진행 기록</h3><br>
 
+<h4>2022 - 03 - 17 : </h4>
+  - Folder들을 html로 Rendering할 때 group by절로 정리 후 Rendering하려고 할 경우에 문제 발생.<br />
+  - 문제 내용. group by절을 사용하기 위한 values()의 반환 값은 QuerySet Object에서 dict type으로 값이 반환되기 때문에 ForeignKey에 해당되는 객체 값을 가져오지 못하는 문제가 발생.<br />
+  - 해결방법 ORM으로는 해결하기 어렵다고 판다. 그렇기에 따로 해당 Data들을 불러올 수 있게 실행 쿼리를 정의한 함수를 구현해서 불러오는 것으로 생각.
+  - 다음 진행할 것(3월 18일 이후)<br />
+  <ul>
+    <li>쿼리를 정의한 함수 구현하기.</li>
+    <li>File Upload 구현하기.</li>
+  </ul><br /><br />
+
 <h4>2022 - 03 - 16 : </h4>
   - File Server에서 폴더를 엉뚱하게 생성하는 문제 해결함.<br />
   - Folder들을 html로 Rendering할 때 group by절로 정리 후 Rendering하려고 할 경우에 문제 발생.<br />

@@ -84,13 +84,14 @@ def main(request):
     if FileFolder.objects.filter(oner_id = request.session.get('id')).exists():
         folders_data = FileFolder.objects.filter(oner_id = request.session.get('id'))
     if ShareFolder.objects.extra(where=["onner_id_id = %s OR share_user_id_id = %s"], params=[request.session.get('id'), request.session.get('id')]).exists():
-        share_folders_data = ShareFolder.objects.extra(where=["onner_id_id = %s OR share_user_id_id = %s"], params=[request.session.get('id'), request.session.get('id')]).values('groupnum').values()
+        share_folders_data = ShareFolder.objects.extra(where=["onner_id_id = %s OR share_user_id_id = %s"], params=[request.session.get('id'), request.session.get('id')]).values('groupnum', 'share_folder_id__id', 'share_folder_id__folder_name')
 
     if share_folders_data:
         print(share_folders_data)
         print('-' * 100)
         for share_folder in share_folders_data:
-            print(share_folder.values())
+            print(share_folder)
+            print()
             # print('Column Values' + '===' * 10)
             # print(share_folder.get('share_folder_id_id'))
             # print(share_folder.share_folder_id.folder_name)
