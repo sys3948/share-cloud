@@ -46,6 +46,8 @@ def main(request):
 
         folder = FileFolder(folder_id = folder_id, folder_name = request_data.get('folderName'), upper_folder_id = upper_folder, level = level, folder_path = folder_path, oner_id = account)
         folder.save()
+        folder.folder_path += str(folder.id)
+        folder.save()
 
         share_folder = ShareFolder(share_folder_id = folder, onner_id = account, share_user_id = account, groupnum = groupnum) if groupnum else ShareFolder(share_folder_id = folder, onner_id = account, share_user_id = account, groupnum = folder.id)
         share_folder.save()
@@ -82,22 +84,11 @@ def main(request):
     share_folders_data = None
 
     if FileFolder.objects.filter(oner_id = request.session.get('id')).exists():
-        folders_data = FileFolder.objects.filter(oner_id = request.session.get('id'))
+        # 내가 생성한 폴더
+        folders_data = FileFolder.objects.filter(oner_id = request.session.get('id')).order_by('folder_path')
     if ShareFolder.objects.extra(where=["onner_id_id = %s OR share_user_id_id = %s"], params=[request.session.get('id'), request.session.get('id')]).exists():
+        # 공유 받은 폴더
         share_folders_data = ShareFolder.objects.extra(where=["onner_id_id = %s OR share_user_id_id = %s"], params=[request.session.get('id'), request.session.get('id')]).values('groupnum', 'share_folder_id__id', 'share_folder_id__folder_name')
-
-    if share_folders_data:
-        print(share_folders_data)
-        print('-' * 100)
-        for share_folder in share_folders_data:
-            print(share_folder)
-            print()
-            # print('Column Values' + '===' * 10)
-            # print(share_folder.get('share_folder_id_id'))
-            # print(share_folder.share_folder_id.folder_name)
-            # print(share_folder.share_folder_id.upper_folder_id)
-            # if share_folder.share_folder_id.upper_folder_id:
-            #     print(share_folder.share_folder_id.upper_folder_id.folder_name)
 
     return render(request, 'main.html', {'folders_data' : folders_data, 'share_folders_data' : share_folders_data})
 

@@ -53,11 +53,9 @@
                   {% endfor %}
                 {% endif %}
                 <div class="f-block f-level-0" data-level="0"><a href="#">MySelf Folder</a></div>
-                {% if share_folders_data %}
-                  {% for share_folder in share_folders_data %}
-                    {% if share_folder.onner_id == share_folder.share_user_id %}
-                      <div class="f-block f-level-{{share_folder.share_folder_id.level}}" data-level="{{share_folder.share_folder_id.level}}"><a href="#">{{share_folder.share_folder_id.folder_name}}</a></div>
-                    {% endif %}
+                {% if folders_data %}
+                  {% for folder in folders_data %}
+                    <div class="f-block" data-level="{{folder.level}}"><a href="#">{{folder.folder_name}}</a></div>
                   {% endfor %}
                 {% endif %}
               </div>
